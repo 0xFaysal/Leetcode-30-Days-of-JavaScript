@@ -15,7 +15,7 @@ function compose(...functions) {
 }
 
 const composedFunction = compose(addOne, square, double);
-console.log(composedFunction(4)); // Output: 65
+// console.log(composedFunction(4)); // Output: 65
 // Explanation:
 // Starting with x = 4.
 // double(4) = 8
@@ -27,27 +27,51 @@ console.log(composedFunction(4)); // Output: 65
 
 let String = "Hello, World!";
 let newArr = Array.from(String);
-console.log(newArr); // Output: ['H', 'e', 'l', 'l', 'o', ',', ' ', 'W', 'o', 'r', 'l', 'd', '!']
+// console.log(newArr); // Output: ['H', 'e', 'l', 'l', 'o', ',', ' ', 'W', 'o', 'r', 'l', 'd', '!']
 
 let fruits = ["apple", "banana", "cherry"];
 let f = fruits.entries();
 
 let key = fruits.keys();
 let value = fruits.values();
-console.log(key); // Output: [0, 1, 2]
-console.log(value); // Output: ['apple', 'banana', 'cherry']
+// console.log(key); // Output: [0, 1, 2]
+// console.log(value); // Output: ['apple', 'banana', 'cherry']
 
 for (let x of f) {
-    console.log(x);
+    // console.log(x);
 }
 for (let x of key) {
-    console.log(x);
+    // console.log(x);
 }
 for (let x of value) {
-    console.log(x);
+    // console.log(x);
 }
 
 var argumentsLength = function (...args) {
     return args.length;
 };
-console.log(argumentsLength(1, 2, 3)); // Output: 3
+// console.log(argumentsLength(1, 2, 3)); // Output: 3
+
+function memoize(fn) {
+    let cache = new Map();
+    return function (...args) {
+        const key = JSON.stringify(args);
+        console.log(`Key: ${key}`);
+        console.log(`Cache: ${JSON.stringify(Array.from(cache.entries()))}`);
+        if (cache.has(key)) {
+            return cache.get(key);
+        }
+        const result = fn(...args);
+        cache.set(key, result);
+        return result;
+    };
+}
+
+let callCount = 0;
+const memoizedFn = memoize(function (a, b) {
+    callCount += 1;
+    return a + b;
+});
+console.log(memoizedFn(2, 3)); // 5
+console.log(memoizedFn(2, 3)); // 5
+console.log(callCount); // 1
